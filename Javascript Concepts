@@ -1,0 +1,224 @@
+JAVASCRIPT CONCEPTS
+DEEP KNOWLEDGE REQUIRED
+
+1. Generator, Promise, Observables, Async & Await
+
+Promise
+
+A promise represents the result of the asynchronous function. Promises can be used to avoid chaining callbacks. In JavaScript,
+so whenever JavaScript Code Execute as Asynchronously, need to handle an operation as one of the ways would be using promises.
+Promises, have been around quite a while and are defined by a spec called Promise/A+. ES6 has adopted this spec for its Promise implementation; but there are other Promise libraries out there such as Q, Bluebird, RSVP, and others that adhere to this spec and offer other features on top of it.
+A Promise is in one of these states:
+pending: initial state, neither fulfilled nor rejected.
+fulfilled: meaning that the operation completed successfully.
+rejected: meaning that the operation failed.
+var promise1 = new Promise(function(resolve, reject) {
+    isDbOperationCompleted = false;
+    if (isDbOperationCompleted) {
+        resolve('Completed');
+    } else {
+        reject('Not completed');
+    }
+});
+promise1.then(function(result) {
+    console.log(result); //Output : Completed
+}).catch(function(error) {
+    console.log(error); //if isDbOperationCompleted=FALSE                                                  
+    //Output : Not Completed
+})
+consider above code for a sample promise assume like doing DB Operation as asynchronously, In that promise Object arguments as two function resolve and reject,
+whenever we execute that promise using .then() and .catch() as callback function In order to get resolve or reject values
+
+Generator
+
+Don’t fear the *. The generator function specifies what value is yielded next time next() is called. Can either have a finite number of yields, after which next() returns an undefined value, or an infinite number of values using a loop.
+
+function* greeter() {
+  yield 'Hi';
+  yield 'How are you?';
+  yield 'Bye';
+}const greet = greeter();console.log(greet.next().value);
+// 'Hi'
+console.log(greet.next().value);
+// 'How are you?'
+console.log(greet.next().value);
+// 'Bye'
+console.log(greet.next().value);
+// undefined
+
+And using a generator for infinite values:
+
+function* idCreator() {
+  let i = 0;
+  while (true)
+    yield i++;
+}const ids = idCreator();console.log(ids.next().value);
+// 0
+console.log(ids.next().value);
+// 1
+console.log(ids.next().value);
+// 2
+// etc...
+
+Async & Await
+
+Stop and wait until something is resolved. It provides a way to maintain asynchronous processing in a more synchronous fashion. For instance, you need to check if a user’s password is correct (compare to what exists in the server) before allowing the user to enter the system. Or maybe you’ve performed a REST API request and you want the data to fully load before pushing it to the view.
+
+Why is this relevant?
+Synchronous capabilities
+Controls the behavior
+Reduces “callback hell”
+
+2.Closures Memory Leak and Best Approaches
+
+3.Garbage Collection 
+
+4.Design Patterns and Deep Knowledge
+
+5.Debounce and Throttling
+
+6.Event Bubbling and Capturing
+
+7.Power of Prototypes — ways of inheritance
+
+8.Currying
+
+9.Polyfills of map,call,bind
+
+10.All features of ES6 
+
+11.IIFE(Power of IIFE)
+
+12.Memoization
+
+Memoization is a programming technique that attempts to increase a function’s performance by caching its previously computed results. Because JavaScript objects behave like associative arrays, they are ideal candidates to act as caches. Each time a memoized function is called, its parameters are used to index the cache. If the data is present, then it can be returned, without executing the entire function. However, if the data is not cached, then the function is executed, and the result is added to the cache.
+The function is an integral part of the programming, they help to modularity and reusable to our code, as per above definition memoization is an optimizing our code
+const memoizedAdd = () => {
+        let cache = {};
+        return (value) => {
+            if (value in cache) {
+                console.log('Fetching from cache');
+                return cache[value];
+            } else {
+                console.log('Calculating result');
+                let result = value + 10;
+                cache[value] = result;
+                return result;
+            }
+        }
+    }
+// returned function from memoizedAdd
+const newAdd = memoizedAdd();
+console.log(newAdd(9)); //output: 19 calculated
+console.log(newAdd(9)); //output: 19 cached
+
+13.Call, Apply & Bind
+
+1.Call method:
+consider below code, obj have the property of num, using call method we can bound obj to add function,
+var obj={
+   num : 2
+}
+var add = function(num2,num3,num4){
+   return this.num + num2 + num3 + num4;
+}
+var arr=[3,4,5];
+//Call method 
+console.log(add.call(obj,3,4,5));  //Output : 14
+//Apply method
+console.log(add.apply(obj,arr));   //Output : 14
+//bind Method
+var bound = add.bind(obj);
+console.log(bound(3,4,5));         //output : 14 
+2.Apply Method
+The same way the Apply method also works but the only difference is using the apply method the passing arguments could be an array, refer below code.
+3.Bind Method:
+bind method returns a method instance instead of result value, after that need to execute a bound method with arguments.
+
+14.Polymorphism
+
+Polymorphism is one of the tenets of Object-Oriented Programming (OOP). It is the practice of designing objects to share behaviors and to be able to override shared behaviors with specific ones. Polymorphism takes advantage of inheritance in order to make this happen.
+let's look at the sample code for an override a function in JavaScript
+var employee = new Employee('raja');
+//override function
+//this method going to execute
+Employee.prototype.getDetails = function() {
+    return this.name.toUpperCase();
+}
+console.log(employee.getDetails()); //outPut: RAJA
+//object and prototype function
+function Employee(name) {
+    this.name = name;
+}
+Employee.prototype.getDetails = function() {
+    return this.name;
+}
+In the above simple program prototype-based method for an Employee constructor function has to override by another prototype function as return the Name as uppercase.
+So we can override a function in different Scope, and also possible for method overloading, JS doesn’t have method overloading native but still, we can achieve.
+Still few concepts are in oops, which are all are Method overloading, Abstraction, Inheritance in JavaScript.
+
+15. Callbacks
+
+Callback function definition:
+A reference to executable code, or a piece of executable code, that is passed as an argument to other code.
+From the above definition, the callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+function greeting(name) {
+console.log('Hello ' + name);
+}
+function processUserInput(callback) {
+    //var name = prompt('Please enter your name.');
+    name = 'raja';
+    callback(name);
+}
+processUserInput(greeting); //output Hello Raja
+
+16. Destructuring
+Don’t be thrown off by JavaScript parameter destructuring! It’s a common way to cleanly extract properties from objects.
+
+const obj = {
+  name: 'Joe',
+  food: 'cake'
+}const { name, food } = obj;console.log(name, food);
+// 'Joe' 'cake'
+If you want to extract properties under a different name, you can specify them using the following format.
+
+const obj = {
+  name: 'Joe',
+  food: 'cake'
+}const { name: myName, food: myFood } = obj;console.log(myName, myFood);
+// 'Joe' 'cake'
+In the following example, destructuring is used to cleanly pass the person object to the introduce function
+
+17. Spread Syntax
+A JavaScript concept that can throw people off but is relatively simple is the spread operator! In the following case, Math.max can't be applied to the arr array because it doesn't take an array as an argument, it takes the individual elements as arguments. The spread operator ... is used to pull the individual elements out the array.
+
+const arr = [4, 6, -1, 3, 10, 4];
+const max = Math.max(...arr);
+console.log(max);
+// 10
+
+18. Rest Syntax
+Let’s talk about JavaScript rest syntax. You can use it to put any number of arguments passed to a function into an array!
+
+function myFunc(...args) {
+  console.log(args[0] + args[1]);
+}myFunc(1, 2, 3, 4);
+// 3
+
+19. map, filter, reduce
+There is some confusion around the JavaScript array methods map, filter, reduce. These are helpful methods for transforming an array or returning an aggregate value.
+
+map: return array where each element is transformed as specified by the function
+const arr = [1, 2, 3, 4, 5, 6];
+const mapped = arr.map(el => el + 20);console.log(mapped);
+// [21, 22, 23, 24, 25, 26]
+filter: return array of elements where the function returns true
+const arr = [1, 2, 3, 4, 5, 6];
+const filtered = arr.filter(el => el === 2 || el === 4);console.log(filtered);
+// [2, 4]
+reduce: accumulate values as specified in function
+const arr = [1, 2, 3, 4, 5, 6];
+const reduced = arr.reduce((total, current) => total + current);console.log(reduced);
+// 21
+
+20. MessageQueue and Event Loop
