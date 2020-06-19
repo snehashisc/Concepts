@@ -1,0 +1,176 @@
+class Node {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+class SinglyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+/**
+ * Push Operation
+ */
+  push(val) {
+    if(this.head) {
+      this.tail.next = new Node(val)
+      this.tail = this.tail.next;
+    } else {
+      this.head = new Node(val);
+      this.tail = this.head;
+    }
+    this.length += 1;
+    return this;
+  }
+
+
+/**
+ * Pop operation
+ */
+
+pop() {
+  if(!this.head) return undefined
+  let current = this.head;
+  let newTail = current;
+  while(current.next) {
+    newTail = current;
+    current = current.next;
+  }
+  this.length -= 1;
+  if(this.head == this.tail) {
+    this.head = null;
+    this.tail = null;
+  }
+  newTail.next = null;
+  this.tail = newTail;
+  return current
+}
+
+
+/**
+ * Shift operation
+ */
+shift() {
+  let temp = this.head;
+  if(this.length == 1){
+    this.tail = null;
+  }
+  this.head = null;
+  this.head = temp.next;
+  this.length -= 1;
+  return temp
+}
+
+
+/**
+ * Unshift operation
+ */
+
+unshift(val){
+  let newNode = new Node(val);
+    let temp = this.head;
+    this.head = newNode;
+    this.head.next = temp;
+    this.length += 1;
+    return this;
+}
+
+
+/**
+ * Get operation
+ * retrieves the value from that index
+ */
+
+get(index){
+  this.counter = 0;
+  if(index < 0 || index> this.length) return null
+  let current = this.head;
+  while(this.counter !== index){
+    this.counter += 1;
+    current = current.next
+  }
+  return current;
+}
+
+/**
+ * Set Operation
+ * sets the value in that particular node index
+ */
+set(index, val) {
+  let newNode = new Node(val);
+  let node = this.get(index);
+  node.val = newNode.val;
+  return this
+}
+
+/**
+ * Insert Operation
+ */
+
+insert(index, val) {
+  let newNode = new Node(val);
+  let node = this.get(index - 1);
+  newNode.next = node.next;
+  node.next = newNode;
+  this.length += 1;
+  return this
+}
+
+/**
+ * Remove Operation
+ */
+
+remove(index) {
+  if(index < 0 || index>= this.length) return null
+  if(index == this.length -1) return this.pop();
+  if(index == 0) return this.shift();
+  let node = this.get(index - 1);
+  let removedNode = node.next;
+  node.next = removedNode.next;
+  this.length -= 1;
+  return removedNode
+}
+
+/**
+ * Reverse a linked List
+ */
+reverse() {
+  let current = this.head;
+  let last = null;
+
+  while(current){
+    let temp = current.next;
+    current.next = last;
+    last = current;
+    current = temp;
+  }
+  return this
+}
+
+}
+
+var list = new SinglyLinkedList();
+
+//push node
+ list.push(30);
+ list.push(70);
+ list.push(120);
+ list.push(50);
+ list.pop();
+ list.push(200);
+ list.shift();
+ list.unshift(150);
+console.log(list);
+console.log(list.get(2));
+console.log(list.insert(2,350));
+
+//150 -> 70 -> 120 -> 200
+
+console.log(list.set(2, 100))
+console.log(list.remove(1))
+console.log(list);
+console.log(list.reverse())
