@@ -1,0 +1,87 @@
+let userData = {
+   "name": "Sachin",
+   "age": 40,
+   "city": "Mumbai",
+}
+
+// console.log(nameData.data.call(userData))
+
+// const bindData = nameData.data.bind(userData);
+// console.log(bindData())
+
+/** 
+ Polyfill for Bind
+*/
+
+Function.prototype.myBind = function(context) {
+  // let obj = this;
+  return () => {
+        this.call(context);
+  }
+}
+
+const customBind = nameData.data.myBind(userData);
+console.log(customBind())
+
+
+/** 
+ Polyfill for Bind
+*/
+
+Function.prototype.myCall = function(context, ...args) {
+    const fn = {}; //Symbol()
+   // try{
+    context[fn] = this;
+    context[fn](...args);
+    //}
+    // catch(e) {
+    //   context = new context.constructor(context);
+    //   context[fn] = this;
+    //   context[fn](...args);
+    // }
+}
+
+console.log(nameData.data.myCall(userData))
+
+
+// map function
+
+let array = [1,2,3,4,5]
+
+console.log(array.map(item => item * 2));
+// array.map(function(item) {
+//  //logic
+// })
+
+
+/** 
+ Polyfill for Map function
+*/
+Array.prototype.myMap = function(context) {
+  let newArray = [];
+  for(let item of this){
+    newArray.push(context(item))
+  }
+  return newArray
+}
+console.log(array.myMap(item => item * 2));
+
+
+// filter function
+
+console.log(array.filter(item => item === 2))
+
+/** 
+ Polyfill for Filter function
+*/
+
+Array.prototype.myFilter = function(context){
+  let newArray = [];
+  for(let item of this){
+    if(context(item))
+    newArray.push(item)
+  }
+  return newArray
+}
+
+console.log(array.myFilter(item => item === 2));
